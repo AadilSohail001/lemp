@@ -12,16 +12,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # ✅ Install Docker Compose
+      # ✅ Install Docker Compose (Direct Download)
       - name: Install Docker Compose
         run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose-plugin
-          docker compose version  # verify installation
+          DOCKER_COMPOSE_VERSION=2.27.0
+          sudo curl -SL https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose version  # verify installation
 
-      # 🏗 Build the Docker Images
+      # 🏗 Build Docker Images
       - name: Build the Docker Images
-        run: docker compose build
+        run: docker-compose build
 
       # 🔑 Login to Docker Hub
       - name: Logging into the Docker Hub
@@ -30,6 +31,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 📤 Push the Docker Images
+      # 📤 Push Docker Images
       - name: Push the Docker Images to the Docker Hub
-        run: docker compose push
+        run: docker-compose push
