@@ -1,38 +1,28 @@
 name: LEMP Server
-
 on:
   push:
     branches:
-      - main
-
+    - main
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      TAG: latest   # ✅ define TAG here
-
     steps:
       - uses: actions/checkout@v3
-
-      # ✅ Install Docker Compose (Direct Download)
-      - name: Install Docker Compose
-        run: |
-          DOCKER_COMPOSE_VERSION=2.27.0
-          sudo curl -SL https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose version  # verify installation
-
-      # 🏗 Build Docker Images
       - name: Build the Docker Images
-        run: docker-compose build
-
-      # 🔑 Login to Docker Hub
+        run: |
+         mkdir -p ~/.docker/cli-plugins/
+         curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+         chmod +x ~/.docker/cli-plugins/docker-compose
+         docker compose version
+        
+      - name: Build the Docker images
+        run: docker compose build
+        
       - name: Logging into the Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      # 📤 Push Docker Images
+        
       - name: Push the Docker Images to the Docker Hub
-        run: docker-compose push
+        run: docker compose push
