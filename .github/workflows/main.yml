@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TAG: latest   # ✅ define TAG here
 
     steps:
       - uses: actions/checkout@v3
