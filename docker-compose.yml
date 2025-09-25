@@ -9,7 +9,7 @@ services:
     build:
       context: ./.docker/nginx
       dockerfile: Dockerfile
-    image: frehman/nginximages:999
+    image: aadilsohail/repo1:901
     ports:
       - 80:80
     volumes:
@@ -23,7 +23,7 @@ services:
     build:
       context: ./.docker/php
       dockerfile: Dockerfile
-    image: frehman/phpimages:999
+    image: aadilsohail/repo1:902
     working_dir: /var/www/php
     volumes:
       - ./src:/var/www/php
@@ -35,7 +35,7 @@ services:
     build:
       context: ./.docker/mysql
       dockerfile: Dockerfile
-    image: frehman/mysqlimages:999
+    image: aadilsohail/repo1:903
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
       MYSQL_ROOT_HOST: "%"
@@ -54,7 +54,7 @@ services:
    build:
      context: ./.docker/phpmyadmin
      dockerfile: Dockerfile
-   image: frehman/myadminimages:999
+   image: aadilsohail/repo1:904
    environment:
      MYSQL_USERNAME: root
      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
